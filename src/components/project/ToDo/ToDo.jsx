@@ -1,5 +1,5 @@
 import "./ToDo.css";
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import { MdCheck } from "react-icons/md";
 import { MdDeleteForever } from "react-icons/md";
 
@@ -8,6 +8,7 @@ export const ToDo = () => {
 
     const [inputValue, setInputValue] = useState("");
     const [task, setTask] = useState([]);
+    const [dateTime, setDateTime] = useState("");
 
 
     const handleInputChange = (value) => {
@@ -26,11 +27,25 @@ export const ToDo = () => {
         setInputValue("");
     };
 
+    //todo DAte Time
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const now = new Date();
+            const formatedDate = now.toLocaleDateString();
+            const formatedTime = now.toLocaleTimeString();
+            setDateTime(`${formatedDate} - ${formatedTime} `);
+
+        }, 1000);
+        return ()=>clearInterval(interval);
+
+    }, []);
 
     return (
         <section className="todo-container">
             <header>
                 <h1>To Do List <MdCheck /></h1>
+                <h2 className="date-time">{dateTime}</h2>
             </header>
             <section className="form">
                 <form onSubmit={handleFormInput}>
@@ -51,13 +66,12 @@ export const ToDo = () => {
             <section className="myUnOrdList">
                 <ul>
                     {task.map((curTask, index) => {
-                        return(
-                        <li key={index} className="todo-item">
-                            <span>{curTask}</span>
-                            <h2>hello</h2>
-                            <button className="check-btn"><MdCheck /></button>
-                            <button className="delete-btn"><MdDeleteForever /></button>
-                        </li>
+                        return (
+                            <li key={index} className="todo-item">
+                                <span>{curTask}</span>
+                                <button className="check-btn"><MdCheck /></button>
+                                <button className="delete-btn"><MdDeleteForever /></button>
+                            </li>
                         )
                     })}
                 </ul>
