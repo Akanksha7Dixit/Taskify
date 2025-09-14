@@ -1,31 +1,17 @@
 import "./ToDo.css";
 import { useState , useEffect } from "react";
-import { MdCheck } from "react-icons/md";
-import { MdDeleteForever } from "react-icons/md";
+import { MdCheck,MdDeleteForever } from "react-icons/md";
+// import { MdDeleteForever } from "react-icons/md";
+import { ToDoForm } from "./ToDoForm";
 
 
 export const ToDo = () => {
 
-    const [inputValue, setInputValue] = useState("");
+    
     const [task, setTask] = useState([]);
     const [dateTime, setDateTime] = useState("");
 
-
-    const handleInputChange = (value) => {
-        setInputValue(value);
-    }
-
-    const handleFormInput = (event) => {
-        event.preventDefault();
-
-        if (!inputValue) return;
-        if (task.includes(inputValue)) {
-            setInputValue("");
-            return;
-        }
-        setTask((prevTask) => [...prevTask, inputValue]);
-        setInputValue("");
-    };
+    
 
     //todo DAte Time
 
@@ -41,28 +27,21 @@ export const ToDo = () => {
 
     }, []);
 
+    //handle delete btn
+    const handleDeleteBtn=(value)=>{
+        console.log(task);
+        console.log(value);
+        const updatedTask=task.filter((curTask)=>curTask!==value);
+        setTask(updatedTask);
+    };
+
     return (
         <section className="todo-container">
             <header>
                 <h1>To Do List <MdCheck /></h1>
                 <h2 className="date-time">{dateTime}</h2>
-            </header>
-            <section className="form">
-                <form onSubmit={handleFormInput}>
-                    <div>
-                        <input
-                            type="text"
-                            className="toDo-input"
-                            autoComplete="off"
-                            value={inputValue}
-                            onChange={(event) => handleInputChange(event.target.value)}
-                        />
-                    </div>
-                    <div>
-                        <button type="submit" className="todo-btn">Add Task</button>
-                    </div>
-                </form>
-            </section>
+            </header>   
+            <ToDoForm />        
             <section className="myUnOrdList">
                 <ul>
                     {task.map((curTask, index) => {
@@ -70,11 +49,16 @@ export const ToDo = () => {
                             <li key={index} className="todo-item">
                                 <span>{curTask}</span>
                                 <button className="check-btn"><MdCheck /></button>
-                                <button className="delete-btn"><MdDeleteForever /></button>
+                                <button className="delete-btn" onClick={()=>handleDeleteBtn(curTask)}>
+                                    <MdDeleteForever />
+                                </button>
                             </li>
                         )
                     })}
                 </ul>
+            </section>
+            <section>
+                <button className="clear-btn" onClick={()=>setTask([])}>Clear All</button>
             </section>
 
         </section >
