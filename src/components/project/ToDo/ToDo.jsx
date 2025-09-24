@@ -1,37 +1,28 @@
 import "./ToDo.css";
-import { useState , useEffect } from "react";
-import { MdCheck,MdDeleteForever } from "react-icons/md";
-// import { MdDeleteForever } from "react-icons/md";
-import { ToDoForm } from "./ToDoForm";
-
+import { useState} from "react";
+import { MdCheck } from "react-icons/md";
+import  { ToDoForm } from "./ToDoForm";
+import { ToDoDate } from "./ToDoDate"; 
+import  { ToDoList }  from "./ToDoList";
 
 export const ToDo = () => {
-
-    
     const [task, setTask] = useState([]);
-    const [dateTime, setDateTime] = useState("");
 
-    
+    //handle form submit
+    const handleFormSubmit = (inputValue) => {
+        if (!inputValue) return;
 
-    //todo DAte Time
+        if (task.includes(inputValue)) return;
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            const now = new Date();
-            const formatedDate = now.toLocaleDateString();
-            const formatedTime = now.toLocaleTimeString();
-            setDateTime(`${formatedDate} - ${formatedTime} `);
+        setTask((prevTask) => [...prevTask, inputValue]);
+    };
 
-        }, 1000);
-        return ()=>clearInterval(interval);
-
-    }, []);
-
+    //todo Date Time:in the seperate component
     //handle delete btn
-    const handleDeleteBtn=(value)=>{
+    const handleDeleteToDo = (value) => {
         console.log(task);
         console.log(value);
-        const updatedTask=task.filter((curTask)=>curTask!==value);
+        const updatedTask = task.filter((curTask) => curTask !== value);
         setTask(updatedTask);
     };
 
@@ -39,28 +30,21 @@ export const ToDo = () => {
         <section className="todo-container">
             <header>
                 <h1>To Do List <MdCheck /></h1>
-                <h2 className="date-time">{dateTime}</h2>
-            </header>   
-            <ToDoForm />        
+                <ToDoDate />
+            </header>
+            <ToDoForm onAddToDo={handleFormSubmit} />
             <section className="myUnOrdList">
                 <ul>
                     {task.map((curTask, index) => {
                         return (
-                            <li key={index} className="todo-item">
-                                <span>{curTask}</span>
-                                <button className="check-btn"><MdCheck /></button>
-                                <button className="delete-btn" onClick={()=>handleDeleteBtn(curTask)}>
-                                    <MdDeleteForever />
-                                </button>
-                            </li>
-                        )
+                            <ToDoList key={index} data={curTask} onHandleDeleteToDo={handleDeleteToDo} />
+                        );
                     })}
                 </ul>
             </section>
             <section>
-                <button className="clear-btn" onClick={()=>setTask([])}>Clear All</button>
+                <button className="clear-btn" onClick={() => setTask([])}>Clear All</button>
             </section>
-
-        </section >
-    )
+        </section>
+    );
 };

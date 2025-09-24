@@ -1,26 +1,22 @@
 import { useState } from "react";
 
-export const ToDoForm=()=>{
+export const ToDoForm=({onAddToDo})=>{
 
     const [inputValue, setInputValue] = useState("");
+
     const handleInputChange = (value) => {
         setInputValue(value);
     };
 
-    const handleFormInput = (event) => {
-            event.preventDefault();
-            if (!inputValue) return;
-            if (task.includes(inputValue)) {
-                setInputValue("");
-                return;
-            }
-            setTask((prevTask) => [...prevTask, inputValue]);
-            setInputValue("");
+    const handleFormSubmit = (event) => {
+        event.preventDefault();
+        onAddToDo(inputValue);
+        setInputValue("");
         };
         
     return (
         <section className="form">
-                <form onSubmit={handleFormInput}>
+                <form onSubmit={handleFormSubmit}>
                     <div>
                         <input
                             type="text"
@@ -35,5 +31,5 @@ export const ToDoForm=()=>{
                     </div>
                 </form>
                 </section>
-    )
-}
+    );
+};
