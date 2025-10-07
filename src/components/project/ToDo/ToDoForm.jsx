@@ -5,14 +5,14 @@ export const ToDoForm=({onAddToDo})=>{
     const [inputValue, setInputValue] = useState("");
 
     const handleInputChange = (value) => {
-        setInputValue(value);
+        setInputValue({id:value , content:value , checked:false});
     };
 
     const handleFormSubmit = (event) => {
         event.preventDefault();
         onAddToDo(inputValue);
         setInputValue("");
-        };
+    };
         
     return (
         <section className="form">
@@ -22,7 +22,7 @@ export const ToDoForm=({onAddToDo})=>{
                             type="text"
                             className="toDo-input"
                             autoComplete="off"
-                            value={inputValue}
+                            value={inputValue.content}
                             onChange={(event) => handleInputChange(event.target.value)}
                         />
                     </div>

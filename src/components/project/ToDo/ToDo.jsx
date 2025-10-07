@@ -10,11 +10,16 @@ export const ToDo = () => {
 
     //handle form submit
     const handleFormSubmit = (inputValue) => {
-        if (!inputValue) return;
+        const{id,content, checked}=inputValue;
+        //to check if the input field is empty or not.
+        if (!content) return;
+        //to check of the data is already existing or not.
+        // if (task.includes(inputValue)) return;
 
-        if (task.includes(inputValue)) return;
+        const ifToDoContentMatched= task.find((curTask)=>curTask.content===content);
+        if(ifToDoContentMatched) return;
 
-        setTask((prevTask) => [...prevTask, inputValue]);
+        setTask((prevTask) => [...prevTask, {id, content,checked}]);
     };
 
     //todo Date Time:in the seperate component
