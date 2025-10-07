@@ -23,11 +23,22 @@ export const ToDo = () => {
     };
 
     //todo Date Time:in the seperate component
+
     //handle delete btn
     const handleDeleteToDo = (value) => {
-        console.log(task);
-        console.log(value);
-        const updatedTask = task.filter((curTask) => curTask !== value);
+        const updatedTask = task.filter((curTask) => curTask.content !== value);
+        setTask(updatedTask);
+    };
+    //handle checked btn  functionality
+    const handleCheckedToDo = (content) =>{
+        const updatedTask = task.map((curTask) => {
+            if(curTask.content===content){
+                return {...curTask, checked: !curTask.checked};
+            }
+            else{
+                return curTask;
+            }
+        });
         setTask(updatedTask);
     };
 
@@ -42,7 +53,13 @@ export const ToDo = () => {
                 <ul>
                     {task.map((curTask, index) => {
                         return (
-                            <ToDoList key={index} data={curTask} onHandleDeleteToDo={handleDeleteToDo} />
+                            <ToDoList 
+                            key={curTask.id} 
+                            data={curTask.content} 
+                            checked = {curTask.checked}
+                            onHandleDeleteToDo={handleDeleteToDo}
+                            onHandleCheckedToDo={handleCheckedToDo}
+                            />
                         );
                     })}
                 </ul>
