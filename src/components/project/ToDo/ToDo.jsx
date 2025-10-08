@@ -5,8 +5,15 @@ import  { ToDoForm } from "./ToDoForm";
 import { ToDoDate } from "./ToDoDate"; 
 import  { ToDoList }  from "./ToDoList";
 
+const todoKey="myToDoList";
+
 export const ToDo = () => {
-    const [task, setTask] = useState([]);
+    const [task, setTask] = useState(()=>{
+        const rawToDos=localStorage.getItem(todoKey);
+        if(!rawToDos) return [];
+        return JSON.parse(rawToDos);
+    });
+    
 
     //handle form submit
     const handleFormSubmit = (inputValue) => {
@@ -21,6 +28,13 @@ export const ToDo = () => {
 
         setTask((prevTask) => [...prevTask, {id, content,checked}]);
     };
+
+
+    
+    //add data to local stoarage
+    localStorage.setItem(todoKey,JSON.stringify(task));
+
+
 
     //todo Date Time:in the seperate component
 
