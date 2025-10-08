@@ -5,14 +5,12 @@ import  { ToDoForm } from "./ToDoForm";
 import { ToDoDate } from "./ToDoDate"; 
 import  { ToDoList }  from "./ToDoList";
 
-const todoKey="myToDoList";
+import { getLocalStorageToDoData, setLocalStorageToDoData } from "./ToDoLocalStorage";
+
+
 
 export const ToDo = () => {
-    const [task, setTask] = useState(()=>{
-        const rawToDos=localStorage.getItem(todoKey);
-        if(!rawToDos) return [];
-        return JSON.parse(rawToDos);
-    });
+    const [task, setTask] = useState(() => getLocalStorageToDoData());
     
 
     //handle form submit
@@ -30,11 +28,9 @@ export const ToDo = () => {
     };
 
 
-    
+
     //add data to local stoarage
-    localStorage.setItem(todoKey,JSON.stringify(task));
-
-
+    setLocalStorageToDoData(task);
 
     //todo Date Time:in the seperate component
 
