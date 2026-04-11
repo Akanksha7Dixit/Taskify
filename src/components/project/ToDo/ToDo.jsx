@@ -12,8 +12,7 @@ import { getLocalStorageToDoData, setLocalStorageToDoData } from "./ToDoLocalSto
 export const ToDo = () => {
     const [task, setTask] = useState(() => getLocalStorageToDoData());
     
-
-    //handle form submit
+    //handle form submit  int the todo form component
     const handleFormSubmit = (inputValue) => {
         const{id,content, checked}=inputValue;
         //to check if the input field is empty or not.

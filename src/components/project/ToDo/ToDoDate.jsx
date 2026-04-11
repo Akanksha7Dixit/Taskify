@@ -12,6 +12,7 @@ export const ToDoDate = () => {
       setDateTime(`${formattedDate} - ${formattedTime}`);
     }, 1000);
 
+    
     return () => clearInterval(interval);
   }, []);
   return <h2 className="date-time">{dateTime}</h2>;
